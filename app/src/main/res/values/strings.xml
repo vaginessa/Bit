@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Bit</string>
+    <string name="splash_screen_app_name">B i t</string>
+
+    <string name="welcome_to">Welcome to</string>
+    <string name="welcome_back">Welcome Back,</string>
+    <string name="sign_in_to_continue">Sign in to continue</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="insert_email">Insert email...</string>
+    <string name="insert_password">Insert password...</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="login">Login</string>
+    <string name="new_user">New user?</string>
+    <string name="signup">Signup</string>
+</resources>
