@@ -3,6 +3,8 @@ package io.github.p4ndaj.bit.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,6 +28,8 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
 
                 if (ActivityPreferences.getInstance(getApplicationContext()).isFirstRun()) {
+                    intent = new Intent(SplashActivity.this, RegisterActivity.class);
+                } else {
                     intent = new Intent(SplashActivity.this, LoginActivity.class);
                 }
                 startActivity(intent);

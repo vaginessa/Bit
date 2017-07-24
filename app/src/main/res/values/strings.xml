@@ -5,6 +5,7 @@
     <string name="welcome_to">Welcome to</string>
     <string name="welcome_back">Welcome Back,</string>
     <string name="sign_in_to_continue">Sign in to continue</string>
+    <string name="sign_up_to_continue">Sign up to continue</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="insert_email">Insert email...</string>
@@ -12,5 +13,21 @@
     <string name="forgot_password">Forgot Password?</string>
     <string name="login">Login</string>
     <string name="new_user">New user?</string>
-    <string name="signup">Signup</string>
+    <string name="signup">New user? Signup</string>
+    <string name="welcome_dear">Welcome Dear,</string>
+    <string name="register">Register</string>
+    <string name="please_fill_all_the_fields">Please, fill all the fields.</string>
+    <string name="retrieve_the_password">Retrieve it by email!</string>
+    <string name="back">Back</string>
+    <string name="send">Send</string>
+    <string name="please_insert_valid_email">Please, insert valid email</string>
+    <string name="bit_recovery_password">Bit Password Recovery Service</string>
+    <string name="please_install_email_client">Please, install on your phone an email client!</string>
+    <string name="send_email_three_dot">Send email...</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
