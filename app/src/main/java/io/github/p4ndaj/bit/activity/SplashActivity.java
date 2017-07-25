@@ -48,6 +48,6 @@ public class SplashActivity extends AppCompatActivity {
 
     public void setFonts() {
         FontsUtils.setLatoRegularFontTextView(textViewWelcomeTo, this);
-        FontsUtils.setLatoRegularFontTextView(textViewBit, this);
+        FontsUtils.setLatoBoldFontTextView(textViewBit, this);
     }
 }

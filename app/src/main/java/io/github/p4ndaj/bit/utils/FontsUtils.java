@@ -25,4 +25,9 @@ public class FontsUtils {
         Typeface typeface = Typeface.createFromAsset(context.getAssets(), "Lato/Lato-Regular.ttf");
         button.setTypeface(typeface);
     }
+
+    public static void setLatoBoldFontTextView(TextView textView, Context context) {
+        Typeface typeface = Typeface.createFromAsset(context.getAssets(), "Lato/Lato-Bold.ttf");
+        textView.setTypeface(typeface);
+    }
 }

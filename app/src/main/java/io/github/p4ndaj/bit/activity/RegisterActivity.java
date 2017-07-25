@@ -12,6 +12,7 @@ import android.widget.Toast;
 import io.github.p4ndaj.bit.R;
 import io.github.p4ndaj.bit.db.User;
 import io.github.p4ndaj.bit.preferences.ActivityPreferences;
+import io.github.p4ndaj.bit.utils.DebugUtils;
 import io.github.p4ndaj.bit.utils.FontsUtils;
 import io.github.p4ndaj.bit.utils.StringUtils;
 
@@ -64,7 +65,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         if (v == buttonRegister) {
-            if (isEditTextDataEmpty() || !StringUtils.isAnEmail(getStringEmail())) {
+            if (DebugUtils.isDebugUser(getStringEmail(), getStringPassword(), this) == 1) {
+                runMainActivity();
+            } else if  (isEditTextDataEmpty() || !StringUtils.isAnEmail(getStringEmail())) {
                 Toast.makeText(this, R.string.please_fill_all_the_fields, Toast.LENGTH_SHORT).show();
             } else {
                 user.setEmail(getStringEmail());
@@ -73,9 +76,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 // update isFirstRun() boolean
                 ActivityPreferences.getInstance(getApplicationContext()).updateIsFirstRun();
 
-                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                runMainActivity();
             }
         } else if (v == editTextEmail) {
             // do nothing
@@ -110,5 +111,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         FontsUtils.setLatoRegularFontEditText(editTextPassword, this);
 
         FontsUtils.setLatoRegularFontButton(buttonRegister, this);
+    }
+
+    public void runMainActivity() {
+        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

@@ -7,4 +7,23 @@ import io.realm.RealmObject;
  */
 
 public class Password extends RealmObject {
+    public String Name;
+    public String Password;
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String Name) {
+        this.Name = Name;
+    }
+
+    public String getPassword() {
+        return Password;
+    }
+
+    public void setPassword(String Password) {
+        this.Password = Password;
+    }
+
 }

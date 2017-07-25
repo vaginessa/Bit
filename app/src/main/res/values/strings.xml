@@ -24,7 +24,8 @@
     <string name="bit_recovery_password">Bit Password Recovery Service</string>
     <string name="please_install_email_client">Please, install on your phone an email client!</string>
     <string name="send_email_three_dot">Send email...</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Password Archive</string>
+    <string name="debug_recommendation">From GREAT POWER comes GREAT RESPONSIBILITY, so be careful and especially thinks before using some features!</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import io.github.p4ndaj.bit.R;
 import io.github.p4ndaj.bit.db.User;
+import io.github.p4ndaj.bit.utils.DebugUtils;
 import io.github.p4ndaj.bit.utils.FontsUtils;
 import io.github.p4ndaj.bit.utils.StringUtils;
 import io.realm.Realm;
@@ -68,12 +69,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             startActivity(intent);
             finish();
         } else if (v == buttonLogin) {
-            if (!StringUtils.isAnEmail(getEmailString())
+            if (DebugUtils.isDebugUser(getEmailString(), getPasswordString(), this) == 1) {
+                runMainActivity();
+            } else if (!StringUtils.isAnEmail(getEmailString())
                     || getEmailString().equals("") || getPasswordString().equals("")) {
                 Toast.makeText(this, R.string.please_fill_all_the_fields, Toast.LENGTH_SHORT).show();
                 return;
             } else {
-
+                // TODO: add database check
+                runMainActivity();
             }
         }
     }
@@ -107,5 +111,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         FontsUtils.setLatoRegularFontEditText(editTextPassword, this);
 
         FontsUtils.setLatoRegularFontButton(buttonLogin, this);
+    }
+
+    public void runMainActivity() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
