@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import io.github.p4ndaj.bit.R;
 import io.github.p4ndaj.bit.db.User;
+import io.github.p4ndaj.bit.utils.FontsUtils;
 import io.github.p4ndaj.bit.utils.StringUtils;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -18,6 +19,10 @@ import io.realm.RealmResults;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView textViewForgotPassword;
+    private TextView textViewWelcomeBack;
+    private TextView textViewEmail;
+    private TextView textViewPassword;
+    private TextView textViewSignIn;
 
     private Button buttonLogin;
 
@@ -32,11 +37,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         textViewForgotPassword = (TextView) findViewById(R.id.textViewForgotPassword);
+        textViewEmail = (TextView) findViewById(R.id.textViewEmailLogin);
+        textViewPassword = (TextView) findViewById(R.id.textViewPasswordLogin);
+        textViewSignIn = (TextView) findViewById(R.id.textViewSignInToContinue);
+        textViewWelcomeBack = (TextView) findViewById(R.id.textViewWelcomeBack);
 
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
 
         editTextEmail = (EditText) findViewById(R.id.editTextEmailLogin);
         editTextPassword = (EditText) findViewById(R.id.editTextPasswordLogin);
+
+        setFonts();
 
         // initialize user object
         user = new User();
@@ -83,5 +94,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else {
             return editTextPassword.getText().toString().trim();
         }
+    }
+
+    public void setFonts() {
+        FontsUtils.setLatoRegularFontTextView(textViewEmail, this);
+        FontsUtils.setLatoRegularFontTextView(textViewPassword, this);
+        FontsUtils.setLatoRegularFontTextView(textViewForgotPassword, this);
+        FontsUtils.setLatoRegularFontTextView(textViewSignIn, this);
+        FontsUtils.setLatoRegularFontTextView(textViewWelcomeBack, this);
+
+        FontsUtils.setLatoRegularFontEditText(editTextEmail, this);
+        FontsUtils.setLatoRegularFontEditText(editTextPassword, this);
+
+        FontsUtils.setLatoRegularFontButton(buttonLogin, this);
     }
 }
