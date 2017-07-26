@@ -58,12 +58,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         user = new User();
 
         // Initialize Realm
-        Realm.init(getApplicationContext());
+        //Realm.init(getApplicationContext());
 
         // Get a Realm instance for this thread
-        Realm realm = Realm.getDefaultInstance();
+        //Realm realm = Realm.getDefaultInstance();
 
-        final RealmResults<User> user = realm.where(User.class).findAll();
+        //final RealmResults<User> user = realm.where(User.class).findAll();
     }
 
     @Override
