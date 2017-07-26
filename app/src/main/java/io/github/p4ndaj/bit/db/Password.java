@@ -9,6 +9,11 @@ import io.realm.RealmObject;
 public class Password extends RealmObject {
     public String Name;
     public String Password;
+    public String Tag;
+
+    public boolean Favorite;
+
+    public int Logo;
 
     public String getName() {
         return Name;
@@ -26,4 +31,27 @@ public class Password extends RealmObject {
         this.Password = Password;
     }
 
+    public String getTag() {
+        return Tag;
+    }
+
+    public void setTag(String Tag) {
+        this.Tag = Tag;
+    }
+
+    public boolean getFavorite() {
+        return Favorite;
+    }
+
+    public void setFavorite(boolean Favorite) {
+        this.Favorite = Favorite;
+    }
+
+    public int getLogo() {
+        return Logo;
+    }
+
+    public void setLogo(int Logo) {
+        this.Logo = Logo;
+    }
 }

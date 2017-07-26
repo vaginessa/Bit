@@ -1,7 +1,15 @@
 <resources>
+    <!-- Auto-Generated Strings -->
     <string name="app_name">Bit</string>
+    <string name="app_desc">A fresh, Password Manager!</string>
     <string name="splash_screen_app_name">B i t</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main">Password Archive</string>
+    <string name="title_activity_debug_main">Debug Main</string>
 
+    <!-- Various Strings -->
     <string name="welcome_to">Welcome to</string>
     <string name="welcome_back">Welcome Back,</string>
     <string name="sign_in_to_continue">Sign in to continue</string>
@@ -24,11 +32,13 @@
     <string name="bit_recovery_password">Bit Password Recovery Service</string>
     <string name="please_install_email_client">Please, install on your phone an email client!</string>
     <string name="send_email_three_dot">Send email...</string>
-    <string name="title_activity_main">Password Archive</string>
     <string name="debug_recommendation">From GREAT POWER comes GREAT RESPONSIBILITY, so be careful and especially thinks before using some features!</string>
+    <string name="no_password_saved">No password saved!</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
+    <!-- Password Security Level String -->
+    <string name="password_is_very_bad">Password is very bad</string> <!-- when return == 0 -->
+    <string name="password_is_bad">Password is bad</string> <!-- when return == 1 -->
+    <string name="password_is_good">Password is good</string> <!-- when return == 2 -->
+    <string name="password_is_very_good">Password is very good</string> <!-- when return == 3 -->
 </resources>

@@ -24,6 +24,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView textViewEmail;
     private TextView textViewPassword;
     private TextView textViewSignIn;
+    private TextView textViewSignUp;
 
     private Button buttonLogin;
 
@@ -42,11 +43,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         textViewPassword = (TextView) findViewById(R.id.textViewPasswordLogin);
         textViewSignIn = (TextView) findViewById(R.id.textViewSignInToContinue);
         textViewWelcomeBack = (TextView) findViewById(R.id.textViewWelcomeBack);
+        textViewSignUp = (TextView) findViewById(R.id.textViewSignUp);
 
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
 
         editTextEmail = (EditText) findViewById(R.id.editTextEmailLogin);
         editTextPassword = (EditText) findViewById(R.id.editTextPasswordLogin);
+
+        buttonLogin.setOnClickListener(this);
 
         setFonts();
 
@@ -106,6 +110,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         FontsUtils.setLatoRegularFontTextView(textViewForgotPassword, this);
         FontsUtils.setLatoRegularFontTextView(textViewSignIn, this);
         FontsUtils.setLatoRegularFontTextView(textViewWelcomeBack, this);
+        FontsUtils.setLatoBoldFontTextView(textViewSignUp, this);
 
         FontsUtils.setLatoRegularFontEditText(editTextEmail, this);
         FontsUtils.setLatoRegularFontEditText(editTextPassword, this);

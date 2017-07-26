@@ -34,6 +34,10 @@
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme">
         </activity>
+        <activity
+            android:name=".activity.DebugMainActivity"
+            android:label="@string/title_activity_debug_main"
+            android:theme="@style/DebugTheme"></activity>
     </application>
 
 </manifest>

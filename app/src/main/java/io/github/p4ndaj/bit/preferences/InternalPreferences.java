@@ -16,11 +16,13 @@ public class InternalPreferences {
 
     private String DebugSession;
     private String LogcatDump;
+    private String DebugSavedPasswordAdapter;
 
     public InternalPreferences(Context context) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         DebugSession = "debug_session";
         LogcatDump = "logcat_dump";
+        DebugSavedPasswordAdapter = "debug_saved_password_adapter";
     }
 
     public static InternalPreferences getInstance(@NonNull final Context context) {
@@ -45,5 +47,13 @@ public class InternalPreferences {
 
     public void setLogcatDump(boolean bool) {
         sharedPreferences.edit().putBoolean(LogcatDump, bool).apply();
+    }
+
+    public boolean isDebugAdapterSavedPasswordSetted() {
+        return sharedPreferences.getBoolean(DebugSavedPasswordAdapter, false);
+    }
+
+    public void setDebugSavedPasswordAdapter(boolean bool) {
+        sharedPreferences.edit().putBoolean(DebugSavedPasswordAdapter, bool).apply();
     }
 }

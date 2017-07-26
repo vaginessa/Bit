@@ -23,6 +23,7 @@ public class DebugUtils {
     }
 
     private static void isDebugSession(Context context) {
-        InternalPreferences.getInstance(context.getApplicationContext()).isDebugSession();
+        InternalPreferences.getInstance(context.getApplicationContext()).setIsDebugSession();
+        InternalPreferences.getInstance(context.getApplicationContext()).setLogcatDump(true);
     }
 }
