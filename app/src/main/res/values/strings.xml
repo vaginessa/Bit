@@ -34,6 +34,19 @@
     <string name="send_email_three_dot">Send email...</string>
     <string name="debug_recommendation">From GREAT POWER comes GREAT RESPONSIBILITY, so be careful and especially thinks before using some features!</string>
     <string name="no_password_saved">No password saved!</string>
+    <string name="filter">Filter</string>
+    <string name="Title">Title</string>
+    <string name="Password">Password</string>
+    <string name="Tag">Tag</string>
+    <string name="Icon">Icon</string>
+    <string name="insert_title">Insert title...</string>
+    <string name="insert_tag">Insert tag...</string>
+    <string name="select_icon">Select icon</string>
+    <string name="add_password">Add Password</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="saving_data">Saving data...</string>
+    <string name="Favorite">Favorite</string>
 
 
     <!-- Password Security Level String -->

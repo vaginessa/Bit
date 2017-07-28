@@ -10,12 +10,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import io.github.p4ndaj.bit.R;
-import io.github.p4ndaj.bit.db.User;
 import io.github.p4ndaj.bit.utils.DebugUtils;
 import io.github.p4ndaj.bit.utils.FontsUtils;
 import io.github.p4ndaj.bit.utils.StringUtils;
-import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -30,8 +27,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private EditText editTextEmail;
     private EditText editTextPassword;
-
-    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,16 +49,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         setFonts();
 
-        // initialize user object
-        user = new User();
-
-        // Initialize Realm
-        //Realm.init(getApplicationContext());
-
-        // Get a Realm instance for this thread
-        //Realm realm = Realm.getDefaultInstance();
-
-        //final RealmResults<User> user = realm.where(User.class).findAll();
     }
 
     @Override

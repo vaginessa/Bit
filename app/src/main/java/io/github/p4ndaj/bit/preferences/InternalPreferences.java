@@ -17,12 +17,14 @@ public class InternalPreferences {
     private String DebugSession;
     private String LogcatDump;
     private String DebugSavedPasswordAdapter;
+    private String DatabaseEmpty;
 
     public InternalPreferences(Context context) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         DebugSession = "debug_session";
         LogcatDump = "logcat_dump";
         DebugSavedPasswordAdapter = "debug_saved_password_adapter";
+        DatabaseEmpty = "is_database_empty";
     }
 
     public static InternalPreferences getInstance(@NonNull final Context context) {
@@ -55,5 +57,13 @@ public class InternalPreferences {
 
     public void setDebugSavedPasswordAdapter(boolean bool) {
         sharedPreferences.edit().putBoolean(DebugSavedPasswordAdapter, bool).apply();
+    }
+
+    public boolean isDatabaseEmpty() {
+        return sharedPreferences.getBoolean(DatabaseEmpty, true);
+    }
+
+    public void setIsDatabaseEmpty(boolean bool) {
+        sharedPreferences.edit().putBoolean(DatabaseEmpty, bool).apply();
     }
 }

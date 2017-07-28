@@ -1,12 +1,15 @@
 package io.github.p4ndaj.bit.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,15 +19,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.github.p4ndaj.bit.R;
 import io.github.p4ndaj.bit.adapter.SavedPasswordAdapter;
+import io.github.p4ndaj.bit.db.DatabaseHandler;
 import io.github.p4ndaj.bit.interfaces.NavigationAndOnClick;
+import io.github.p4ndaj.bit.lists.Password;
 import io.github.p4ndaj.bit.lists.SavedPasswordList;
 import io.github.p4ndaj.bit.preferences.InternalPreferences;
 import io.github.p4ndaj.bit.utils.FontsUtils;
@@ -66,6 +74,10 @@ public class MainActivity extends AppCompatActivity implements NavigationAndOnCl
             setDebugRecyclerViewAdapter();
         }
 
+        if (!InternalPreferences.getInstance(getApplicationContext()).isDatabaseEmpty()) {
+            setRecyclerViewAdapter();
+        }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -96,6 +108,141 @@ public class MainActivity extends AppCompatActivity implements NavigationAndOnCl
 
         SavedPasswordList savedPasswordList = new SavedPasswordList("Twitter", "01234567", "Social", R.drawable.ic_account_circle_bdbdbd_24dp, true);
         mainSavedPasswordList.add(savedPasswordList);
+
+        savedPasswordAdapter = new SavedPasswordAdapter(mainSavedPasswordList, this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(savedPasswordAdapter);
+    }
+
+    /*private void testDatabase() {
+        DatabaseHandler db = new DatabaseHandler(this);
+        // All CRUD Operations
+        Log.d("Insert: ", "Inserting ..");
+        db.addPassword(new Password("Twitter", "01234567", "Social", R.drawable.ic_add_black_24dp));
+        db.addPassword(new Password("Twitter", "01234567", "Social", R.drawable.ic_add_black_24dp));
+        db.addPassword(new Password("Twitter", "01234567", "Social", R.drawable.ic_add_black_24dp));
+        db.addPassword(new Password("Twitter", "01234567", "Social", R.drawable.ic_add_black_24dp));
+        db.addPassword(new Password("Twitter", "01234567", "Social", R.drawable.ic_add_black_24dp));
+
+        Log.d("Reading:", "Reading all contacts..");
+        List<Password> passwordList = db.getAllPasswords();
+
+        for (Password pw : passwordList) {
+            String log = "id:" + pw.getId()+"Title:"+pw.getTitle() + "Password: " + pw.getPassword();
+            // Debug
+            Log.d(":", log);
+        }
+    }*/
+
+    public void showAddPasswordDialog() {
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.add_password_layout, null);
+        dialogBuilder.setView(dialogView);
+
+        final EditText editTextTitle = dialogView.findViewById(R.id.editTextTitle);
+        final EditText editTextPassword = dialogView.findViewById(R.id.editTextPassword);
+        final EditText editTextTag = dialogView.findViewById(R.id.editTextTag);
+
+        TextView Title = dialogView.findViewById(R.id.textViewTitle);
+        TextView Password = dialogView.findViewById(R.id.textViewPassword);
+        TextView Tag = dialogView.findViewById(R.id.textViewTag);
+        TextView SelectIcon = dialogView.findViewById(R.id.textViewSelectIcon);
+        TextView Header = dialogView.findViewById(R.id.textViewHeader);
+
+        final CheckBox isFavorite = dialogView.findViewById(R.id.checkBoxFavorite);
+
+        FontsUtils.setLatoRegularFontEditText(editTextTitle, this);
+        FontsUtils.setLatoRegularFontEditText(editTextPassword, this);
+        FontsUtils.setLatoRegularFontEditText(editTextTag, this);
+
+        FontsUtils.setLatoRegularFontTextView(Title, this);
+        FontsUtils.setLatoRegularFontTextView(Password, this);
+        FontsUtils.setLatoRegularFontTextView(Tag, this);
+        FontsUtils.setLatoRegularFontTextView(SelectIcon, this);
+        FontsUtils.setLatoRegularFontTextView(Header, this);
+
+        FontsUtils.setLatoRegularFontCheckBox(isFavorite, this);
+
+        dialogBuilder.setPositiveButton(getString(R.string.save), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String Title = editTextTitle.getText().toString().trim();
+                String Password = editTextPassword.getText().toString().trim();
+                String Tag = editTextTag.getText().toString().trim();
+
+                int Icon = R.drawable.ic_account_circle_bdbdbd_24dp;
+
+                int Favorite = 0;
+
+                if (isFavorite.isChecked()) {
+                    Favorite = 1;
+                } else {
+                    Favorite = 0;
+                }
+
+                if (Title.equals("") || Password.equals("") || Tag.equals("")) {
+                    Toast.makeText(MainActivity.this, R.string.please_fill_all_the_fields, Toast.LENGTH_SHORT).show();
+                } else {
+                    // save data on DB
+                    Toast.makeText(MainActivity.this, R.string.saving_data, Toast.LENGTH_SHORT).show();
+
+                    DatabaseHandler db = new DatabaseHandler(MainActivity.this);
+                    db.addPassword(new Password(Title, Password, Favorite, Tag, Icon));
+
+                    if (InternalPreferences.getInstance(getApplicationContext()).isDatabaseEmpty()) {
+                        InternalPreferences.getInstance(getApplicationContext()).setIsDatabaseEmpty(false);
+                    }
+
+                    setRecyclerViewAdapter();
+                }
+            }
+        }).create();
+
+        dialogBuilder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // do nothing ...
+            }
+        }).create();
+
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+    }
+
+    public void preparePasswordList() {
+        DatabaseHandler db = new DatabaseHandler(this);
+
+        //Log.d("Reading:", "Reading all contacts..");
+        List<Password> passwordList = db.getAllPasswords();
+
+        // clear main list
+        mainSavedPasswordList.clear();
+
+        for (Password pw : passwordList) {
+            //String log = "id:" + pw.getId()+"Title:"+pw.getTitle() + "Password: " + pw.getPassword();
+            // Debug
+            //Log.d(":", log);
+
+            boolean favorite = false;
+
+            if (pw.getFavorite() == 0) {
+                favorite = false;
+            } else if (pw.getFavorite() == 1) {
+                favorite = true;
+            }
+
+            SavedPasswordList savedPasswordList = new SavedPasswordList(pw.getTitle(), pw.getPassword(), pw.getTag(), pw.getIcon(), favorite);
+            mainSavedPasswordList.add(savedPasswordList);
+        }
+    }
+
+    public void setRecyclerViewAdapter() {
+        hideNoPasswordSaved();
+
+        preparePasswordList();
 
         savedPasswordAdapter = new SavedPasswordAdapter(mainSavedPasswordList, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -168,7 +315,7 @@ public class MainActivity extends AppCompatActivity implements NavigationAndOnCl
     @Override
     public void onClick(View v) {
         if (v == fab) {
-
+            showAddPasswordDialog();
         }
     }
 }

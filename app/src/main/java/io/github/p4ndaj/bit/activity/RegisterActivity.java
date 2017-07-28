@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import io.github.p4ndaj.bit.R;
-import io.github.p4ndaj.bit.db.User;
 import io.github.p4ndaj.bit.preferences.ActivityPreferences;
 import io.github.p4ndaj.bit.utils.DebugUtils;
 import io.github.p4ndaj.bit.utils.FontsUtils;
@@ -27,8 +26,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private EditText editTextEmail;
     private EditText editTextPassword;
-
-    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +50,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         setFonts();
 
         // initialize user object
-        user = new User();
-
-        // Initialize Realm
-        // Realm.init(getApplicationContext());
-
-        // Get a Realm instance for this thread
-        // Realm realm = Realm.getDefaultInstance();
     }
 
     @Override
@@ -70,8 +60,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             } else if  (isEditTextDataEmpty() || !StringUtils.isAnEmail(getStringEmail())) {
                 Toast.makeText(this, R.string.please_fill_all_the_fields, Toast.LENGTH_SHORT).show();
             } else {
-                user.setEmail(getStringEmail());
-                user.setPassword(getStringPassword());
+                // TODO: add all sqlite database
 
                 // update isFirstRun() boolean
                 ActivityPreferences.getInstance(getApplicationContext()).updateIsFirstRun();

@@ -3,6 +3,7 @@ package io.github.p4ndaj.bit.utils;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -29,5 +30,10 @@ public class FontsUtils {
     public static void setLatoBoldFontTextView(TextView textView, Context context) {
         Typeface typeface = Typeface.createFromAsset(context.getAssets(), "Lato/Lato-Bold.ttf");
         textView.setTypeface(typeface);
+    }
+
+    public static void setLatoRegularFontCheckBox(CheckBox checkBox, Context context) {
+        Typeface typeface = Typeface.createFromAsset(context.getAssets(), "Lato/Lato-Regular.ttf");
+        checkBox.setTypeface(typeface);
     }
 }
