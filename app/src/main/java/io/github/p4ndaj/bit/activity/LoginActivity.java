@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import io.github.p4ndaj.bit.R;
+import io.github.p4ndaj.bit.preferences.UserPreferences;
 import io.github.p4ndaj.bit.utils.DebugUtils;
 import io.github.p4ndaj.bit.utils.FontsUtils;
 import io.github.p4ndaj.bit.utils.StringUtils;
@@ -45,30 +46,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editTextEmail = (EditText) findViewById(R.id.editTextEmailLogin);
         editTextPassword = (EditText) findViewById(R.id.editTextPasswordLogin);
 
+        textViewForgotPassword.setOnClickListener(this);
+        textViewSignUp.setOnClickListener(this);
+
         buttonLogin.setOnClickListener(this);
 
         setFonts();
 
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v == textViewForgotPassword) {
-            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
-            startActivity(intent);
-            finish();
-        } else if (v == buttonLogin) {
-            if (DebugUtils.isDebugUser(getEmailString(), getPasswordString(), this) == 1) {
-                runMainActivity();
-            } else if (!StringUtils.isAnEmail(getEmailString())
-                    || getEmailString().equals("") || getPasswordString().equals("")) {
-                Toast.makeText(this, R.string.please_fill_all_the_fields, Toast.LENGTH_SHORT).show();
-                return;
-            } else {
-                // TODO: add database check
-                runMainActivity();
-            }
-        }
     }
 
     public String getEmailString() {
@@ -92,9 +76,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void setFonts() {
         FontsUtils.setLatoRegularFontTextView(textViewEmail, this);
         FontsUtils.setLatoRegularFontTextView(textViewPassword, this);
-        FontsUtils.setLatoRegularFontTextView(textViewForgotPassword, this);
-        FontsUtils.setLatoRegularFontTextView(textViewSignIn, this);
-        FontsUtils.setLatoRegularFontTextView(textViewWelcomeBack, this);
+        FontsUtils.setLatoBoldFontTextView(textViewForgotPassword, this);
+        FontsUtils.setLatoBoldFontTextView(textViewSignIn, this);
+        FontsUtils.setLatoBoldFontTextView(textViewWelcomeBack, this);
         FontsUtils.setLatoBoldFontTextView(textViewSignUp, this);
 
         FontsUtils.setLatoRegularFontEditText(editTextEmail, this);
@@ -107,5 +91,34 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == textViewForgotPassword) {
+            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+            startActivity(intent);
+            finish();
+        } else if (v == buttonLogin) {
+            if (DebugUtils.isDebugUser(getEmailString(), getPasswordString(), this) == 1) {
+                runMainActivity();
+            } else if (!StringUtils.isAnEmail(getEmailString())
+                    || getEmailString().equals("") || getPasswordString().equals("")) {
+                Toast.makeText(this, R.string.please_fill_all_the_fields, Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+                if (!UserPreferences.getInstance(getApplicationContext()).getPassword(getEmailString()).equals("NOT_FOUND")
+                        && UserPreferences.getInstance(getApplicationContext()).getPassword(getEmailString()).equals(getPasswordString())) {
+                    UserPreferences.getInstance(getApplicationContext()).setCurrentUser(getEmailString());
+                    runMainActivity();
+                } else {
+                    Toast.makeText(this, R.string.please_check_strings_inserted_and_try_again, Toast.LENGTH_SHORT).show();
+                }
+            }
+        } else if (v == textViewSignUp) {
+            Intent intent = new Intent(this, RegisterActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }

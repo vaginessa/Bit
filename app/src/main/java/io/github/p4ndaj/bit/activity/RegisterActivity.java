@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import io.github.p4ndaj.bit.R;
 import io.github.p4ndaj.bit.preferences.ActivityPreferences;
+import io.github.p4ndaj.bit.preferences.UserPreferences;
 import io.github.p4ndaj.bit.utils.DebugUtils;
 import io.github.p4ndaj.bit.utils.FontsUtils;
 import io.github.p4ndaj.bit.utils.StringUtils;
@@ -18,9 +19,10 @@ import io.github.p4ndaj.bit.utils.StringUtils;
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView textViewWelcomeDear;
-    private TextView textViewSignup;
+    private TextView textViewSignUp;
     private TextView textViewEmail;
     private TextView textViewPassword;
+    private TextView textViewSignIn;
 
     private Button buttonRegister;
 
@@ -33,14 +35,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_register);
 
         textViewWelcomeDear = (TextView) findViewById(R.id.textViewWelcomeDear);
-        textViewSignup = (TextView) findViewById(R.id.textViewSignupRegister);
+        textViewSignUp = (TextView) findViewById(R.id.textViewSignupRegister);
         textViewEmail = (TextView) findViewById(R.id.textViewEmailRegister);
         textViewPassword = (TextView) findViewById(R.id.textViewPasswordRegister);
+        textViewSignIn = (TextView) findViewById(R.id.textViewSignInRegister);
 
         buttonRegister = (Button) findViewById(R.id.buttonRegister);
 
         editTextEmail = (EditText) findViewById(R.id.editTextEmailRegister);
         editTextPassword = (EditText) findViewById(R.id.editTextPasswordRegister);
+
+        textViewSignIn.setOnClickListener(this);
 
         buttonRegister.setOnClickListener(this);
 
@@ -50,28 +55,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         setFonts();
 
         // initialize user object
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v == buttonRegister) {
-            if (DebugUtils.isDebugUser(getStringEmail(), getStringPassword(), this) == 1) {
-                runMainActivity();
-            } else if  (isEditTextDataEmpty() || !StringUtils.isAnEmail(getStringEmail())) {
-                Toast.makeText(this, R.string.please_fill_all_the_fields, Toast.LENGTH_SHORT).show();
-            } else {
-                // TODO: add all sqlite database
-
-                // update isFirstRun() boolean
-                ActivityPreferences.getInstance(getApplicationContext()).updateIsFirstRun();
-
-                runMainActivity();
-            }
-        } else if (v == editTextEmail) {
-            // do nothing
-        } else if (v == editTextPassword) {
-            // do nothing
-        }
     }
 
     public boolean isEditTextDataEmpty() {
@@ -93,8 +76,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void setFonts() {
         FontsUtils.setLatoRegularFontTextView(textViewEmail, this);
         FontsUtils.setLatoRegularFontTextView(textViewPassword, this);
-        FontsUtils.setLatoRegularFontTextView(textViewSignup, this);
-        FontsUtils.setLatoRegularFontTextView(textViewWelcomeDear, this);
+        FontsUtils.setLatoBoldFontTextView(textViewSignUp, this);
+        FontsUtils.setLatoBoldFontTextView(textViewWelcomeDear, this);
+        FontsUtils.setLatoBoldFontTextView(textViewSignIn, this);
 
         FontsUtils.setLatoRegularFontEditText(editTextEmail, this);
         FontsUtils.setLatoRegularFontEditText(editTextPassword, this);
@@ -106,5 +90,43 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public void addUser(String Email, String Password) {
+        UserPreferences.getInstance(getApplicationContext()).setPassword(Email, Password);
+        UserPreferences.getInstance(getApplicationContext()).setCurrentUser(Email);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == buttonRegister) {
+            if (DebugUtils.isDebugUser(getStringEmail(), getStringPassword(), this) == 1) {
+                addUser(getStringEmail(), getStringPassword());
+                runMainActivity();
+            } else if (isEditTextDataEmpty() || !StringUtils.isAnEmail(getStringEmail())) {
+                Toast.makeText(this, R.string.please_fill_all_the_fields, Toast.LENGTH_SHORT).show();
+            } else {
+                if (UserPreferences.getInstance(getApplicationContext()).getPassword(getStringEmail()).equals("NOT_FOUND")) {
+                    addUser(getStringEmail(), getStringPassword());
+                } else {
+                    Toast.makeText(this, R.string.this_account_already_exist, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (ActivityPreferences.getInstance(getApplicationContext()).isFirstRun()) {
+                    ActivityPreferences.getInstance(getApplicationContext()).updateIsFirstRun();
+                }
+
+                runMainActivity();
+            }
+        } else if (v == editTextEmail) {
+            // do nothing...
+        } else if (v == editTextPassword) {
+            // do nothing...
+        } else if (v == textViewSignIn) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }

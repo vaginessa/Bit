@@ -35,6 +35,7 @@ import io.github.p4ndaj.bit.interfaces.NavigationAndOnClick;
 import io.github.p4ndaj.bit.lists.Password;
 import io.github.p4ndaj.bit.lists.SavedPasswordList;
 import io.github.p4ndaj.bit.preferences.InternalPreferences;
+import io.github.p4ndaj.bit.preferences.UserPreferences;
 import io.github.p4ndaj.bit.utils.FontsUtils;
 
 public class MainActivity extends AppCompatActivity implements NavigationAndOnClick {
@@ -74,7 +75,8 @@ public class MainActivity extends AppCompatActivity implements NavigationAndOnCl
             setDebugRecyclerViewAdapter();
         }
 
-        if (!InternalPreferences.getInstance(getApplicationContext()).isDatabaseEmpty()) {
+        if (!InternalPreferences.getInstance(getApplicationContext())
+                .isDatabaseEmpty(UserPreferences.getInstance(getApplicationContext()).getCurrentUser())) {
             setRecyclerViewAdapter();
         }
 
@@ -192,7 +194,8 @@ public class MainActivity extends AppCompatActivity implements NavigationAndOnCl
                     DatabaseHandler db = new DatabaseHandler(MainActivity.this);
                     db.addPassword(new Password(Title, Password, Favorite, Tag, Icon));
 
-                    if (InternalPreferences.getInstance(getApplicationContext()).isDatabaseEmpty()) {
+                    if (InternalPreferences.getInstance(getApplicationContext())
+                            .isDatabaseEmpty(UserPreferences.getInstance(getApplicationContext()).getCurrentUser())) {
                         InternalPreferences.getInstance(getApplicationContext()).setIsDatabaseEmpty(false);
                     }
 

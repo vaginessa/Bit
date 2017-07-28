@@ -59,8 +59,8 @@ public class InternalPreferences {
         sharedPreferences.edit().putBoolean(DebugSavedPasswordAdapter, bool).apply();
     }
 
-    public boolean isDatabaseEmpty() {
-        return sharedPreferences.getBoolean(DatabaseEmpty, true);
+    public boolean isDatabaseEmpty(String Email) {
+        return sharedPreferences.getBoolean(Email + ".db", true);
     }
 
     public void setIsDatabaseEmpty(boolean bool) {

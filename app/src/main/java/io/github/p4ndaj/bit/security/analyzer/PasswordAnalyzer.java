@@ -9,16 +9,16 @@ public class PasswordAnalyzer {
     /**
      * Security level: 0;
      * "Password is very bad"
-     * <p>
+     * -----------------------
      * Security level: 1
      * "Password is bad"
-     * <p>
+     * -----------------------
      * Security level: 2
      * "Password is good"
-     * <p>
+     * -----------------------
      * Security level: 3
      * "Password is very good"
-     * <p>
+     * -----------------------
      * This is based only on length because usually for hack password
      * is used the "Social Engineering" ... otherwise is used the brute-force Attack
      */

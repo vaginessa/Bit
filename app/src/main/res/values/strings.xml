@@ -47,6 +47,10 @@
     <string name="cancel">Cancel</string>
     <string name="saving_data">Saving data...</string>
     <string name="Favorite">Favorite</string>
+    <string name="this_account_already_exist">This account already exist!</string>
+    <string name="you_already_have_an_account">You already have an account?</string>
+    <string name="please_add_a_valid_or_registered_email">Please, add valid or registered email...</string>
+    <string name="please_check_strings_inserted_and_try_again">Please, check strings inserted and try again...</string>
 
 
     <!-- Password Security Level String -->

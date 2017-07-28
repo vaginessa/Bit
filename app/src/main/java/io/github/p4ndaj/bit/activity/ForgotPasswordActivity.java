@@ -10,6 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import io.github.p4ndaj.bit.R;
+import io.github.p4ndaj.bit.preferences.UserPreferences;
+import io.github.p4ndaj.bit.utils.FontsUtils;
 import io.github.p4ndaj.bit.utils.StringUtils;
 
 public class ForgotPasswordActivity extends AppCompatActivity implements View.OnClickListener {
@@ -36,6 +38,26 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
         editTextEmail = (EditText) findViewById(R.id.editTextEmailForgotPassword);
 
         buttonBack.setOnClickListener(this);
+        buttonSend.setOnClickListener(this);
+
+        setFonts();
+    }
+
+    public String getStringEmail() {
+        if (editTextEmail.getText().toString().trim().equals("")) {
+            Toast.makeText(this, R.string.please_insert_valid_email, Toast.LENGTH_SHORT).show();
+            return "NOT_VALID_EMAIL";
+        } else {
+            return editTextEmail.getText().toString().trim();
+        }
+    }
+
+    public void setFonts() {
+        FontsUtils.setLatoBoldFontTextView(textViewTitle, this);
+        FontsUtils.setLatoBoldFontTextView(textViewSummary, this);
+        FontsUtils.setLatoRegularFontEditText(editTextEmail, this);
+        FontsUtils.setLatoRegularFontButton(buttonBack, this);
+        FontsUtils.setLatoRegularFontButton(buttonSend, this);
     }
 
     @Override
@@ -45,34 +67,26 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
             startActivity(intent);
             finish();
         } else if (v == buttonSend) {
-            if (StringUtils.isAnEmail(getStringEmail())) {
+            if (StringUtils.isAnEmail(getStringEmail())
+                    && !UserPreferences.getInstance(getApplicationContext()).getPassword(getStringEmail()).equals("NOT_FOUND")) {
                 // adding code for get password from Realm Database
 
-                // sending email
-                Intent intent = new Intent(Intent.ACTION_SEND);
+                // sending email debug
+                /*Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("message/rfc822");
                 intent.putExtra(Intent.EXTRA_EMAIL, getStringEmail());
                 intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.bit_recovery_password));
-                intent.putExtra(Intent.EXTRA_TEXT, "Password");
+                intent.putExtra(Intent.EXTRA_TEXT, UserPreferences.getInstance(getApplicationContext()).getPassword(getStringEmail()));
 
                 try {
                     startActivity(Intent.createChooser(intent, getString(R.string.send_email_three_dot)));
                 } catch (android.content.ActivityNotFoundException e) {
                     Toast.makeText(this, R.string.please_install_email_client, Toast.LENGTH_SHORT).show();
-                }
+                }*/
 
             } else {
-                Toast.makeText(this, R.string.please_insert_valid_email, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.please_add_a_valid_or_registered_email, Toast.LENGTH_SHORT).show();
             }
-        }
-    }
-
-    public String getStringEmail() {
-        if (editTextEmail.getText().toString().trim().equals("")) {
-            Toast.makeText(this, R.string.please_insert_valid_email, Toast.LENGTH_SHORT).show();
-            return "NOT_VALID_EMAIL";
-        } else {
-            return editTextEmail.getText().toString().trim();
         }
     }
 }
