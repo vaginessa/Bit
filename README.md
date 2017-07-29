@@ -2,7 +2,7 @@
 _Bit is a fresh and material design Android Application!_ 
 
 ## Download
-Here, there is the direct link for download the [apk](/P4ndaJ/Bit/raw/master/app/release/app-release.apk) that i will release every commit!
+Here, there is the direct link for download the [apk](https://github.com/P4ndaJ/Bit/raw/master/app/release/app-release.apk) that i will release every commit!
 
 ## Building
 For build this project you only do this on your terminal: ``git clone https://github.com/P4ndaJ/Bit.git`` <br>
