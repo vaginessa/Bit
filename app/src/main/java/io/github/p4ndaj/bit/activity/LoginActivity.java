@@ -1,16 +1,20 @@
 package io.github.p4ndaj.bit.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+
 import io.github.p4ndaj.bit.R;
 import io.github.p4ndaj.bit.preferences.UserPreferences;
+import io.github.p4ndaj.bit.security.hash.sha256;
 import io.github.p4ndaj.bit.utils.DebugUtils;
 import io.github.p4ndaj.bit.utils.FontsUtils;
 import io.github.p4ndaj.bit.utils.StringUtils;
@@ -102,17 +106,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else if (v == buttonLogin) {
             if (DebugUtils.isDebugUser(getEmailString(), getPasswordString(), this) == 1) {
                 runMainActivity();
-            } else if (!StringUtils.isAnEmail(getEmailString())
-                    || getEmailString().equals("") || getPasswordString().equals("")) {
+            } else if (!StringUtils.isAnEmail(getEmailString()) || getEmailString().equals("") || getPasswordString().equals("")) {
                 Toast.makeText(this, R.string.please_fill_all_the_fields, Toast.LENGTH_SHORT).show();
                 return;
             } else {
-                if (!UserPreferences.getInstance(getApplicationContext()).getPassword(getEmailString()).equals("NOT_FOUND")
-                        && UserPreferences.getInstance(getApplicationContext()).getPassword(getEmailString()).equals(getPasswordString())) {
-                    UserPreferences.getInstance(getApplicationContext()).setCurrentUser(getEmailString());
-                    runMainActivity();
-                } else {
-                    Toast.makeText(this, R.string.please_check_strings_inserted_and_try_again, Toast.LENGTH_SHORT).show();
+                try {
+                    if (!UserPreferences.getInstance(getApplicationContext()).getPassword(getEmailString()).equals("NOT_FOUND") &&
+                            UserPreferences.getInstance(getApplicationContext()).getPassword(getEmailString()).equals(Arrays.toString(sha256.sha256Maker(getPasswordString())))) {
+                        UserPreferences.getInstance(getApplicationContext()).setCurrentUser(getEmailString());
+                        runMainActivity();
+                    } else {
+                        Toast.makeText(this, R.string.please_check_strings_inserted_and_try_again, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
                 }
             }
         } else if (v == textViewSignUp) {

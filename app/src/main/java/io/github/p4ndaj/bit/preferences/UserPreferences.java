@@ -35,16 +35,16 @@ public class UserPreferences {
         return sharedPreferences.getString(Email, "NOT_FOUND");
     }
 
-    public void setPassword(String Email, String Password) {
-        sharedPreferences.edit().putString(Email, Password).apply();
-    }
-
-    public void setCurrentUser(String Email) {
-        sharedPreferences.edit().putString(CurrentUser, Email).apply();
+    public void setPassword(String Email, byte[] Password) {
+        sharedPreferences.edit().putString(Email, Arrays.toString(Password)).apply();
     }
 
     public String getCurrentUser() {
         return sharedPreferences.getString(CurrentUser, "NOT_FOUND");
+    }
+
+    public void setCurrentUser(String Email) {
+        sharedPreferences.edit().putString(CurrentUser, Email).apply();
     }
 
 }

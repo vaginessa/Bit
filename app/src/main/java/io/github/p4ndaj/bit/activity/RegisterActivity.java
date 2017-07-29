@@ -1,17 +1,20 @@
 package io.github.p4ndaj.bit.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.security.NoSuchAlgorithmException;
+
 import io.github.p4ndaj.bit.R;
 import io.github.p4ndaj.bit.preferences.ActivityPreferences;
 import io.github.p4ndaj.bit.preferences.UserPreferences;
+import io.github.p4ndaj.bit.security.hash.sha256;
 import io.github.p4ndaj.bit.utils.DebugUtils;
 import io.github.p4ndaj.bit.utils.FontsUtils;
 import io.github.p4ndaj.bit.utils.StringUtils;
@@ -92,8 +95,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         finish();
     }
 
-    public void addUser(String Email, String Password) {
-        UserPreferences.getInstance(getApplicationContext()).setPassword(Email, Password);
+    public void addUser(String Email, String Password) throws NoSuchAlgorithmException {
+        UserPreferences.getInstance(getApplicationContext()).setPassword(Email, sha256.sha256Maker(Password));
         UserPreferences.getInstance(getApplicationContext()).setCurrentUser(Email);
     }
 
@@ -101,13 +104,21 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         if (v == buttonRegister) {
             if (DebugUtils.isDebugUser(getStringEmail(), getStringPassword(), this) == 1) {
-                addUser(getStringEmail(), getStringPassword());
+                try {
+                    addUser(getStringEmail(), getStringPassword());
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
                 runMainActivity();
             } else if (isEditTextDataEmpty() || !StringUtils.isAnEmail(getStringEmail())) {
                 Toast.makeText(this, R.string.please_fill_all_the_fields, Toast.LENGTH_SHORT).show();
             } else {
                 if (UserPreferences.getInstance(getApplicationContext()).getPassword(getStringEmail()).equals("NOT_FOUND")) {
-                    addUser(getStringEmail(), getStringPassword());
+                    try {
+                        addUser(getStringEmail(), getStringPassword());
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     Toast.makeText(this, R.string.this_account_already_exist, Toast.LENGTH_SHORT).show();
                     return;
