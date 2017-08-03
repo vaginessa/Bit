@@ -84,6 +84,8 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
                     Toast.makeText(this, R.string.please_install_email_client, Toast.LENGTH_SHORT).show();
                 }*/
 
+
+
             } else {
                 Toast.makeText(this, R.string.please_add_a_valid_or_registered_email, Toast.LENGTH_SHORT).show();
             }

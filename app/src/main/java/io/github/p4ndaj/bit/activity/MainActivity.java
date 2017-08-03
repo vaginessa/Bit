@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements NavigationAndOnCl
         db.addPassword(new Password("Twitter", "01234567", "Social", R.drawable.ic_add_black_24dp));
 
         Log.d("Reading:", "Reading all contacts..");
-        List<Password> passwordList = db.getAllPasswords();
+        List<Password> passwordList = db.getAllUsers();
 
         for (Password pw : passwordList) {
             String log = "id:" + pw.getId()+"Title:"+pw.getTitle() + "Password: " + pw.getPassword();
